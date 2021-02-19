@@ -13,11 +13,8 @@ def post_gpu_program_to_service(server_url, program_exe):
 
 
 def read_binary_file(path):
-    file = open(path, "rb")
-    file_data = file.read()
-    file.close()
-    return file_data
-
+    with open(path, "rb") as f:
+        return f.read()
 
 def parse_args():
     parser = argparse.ArgumentParser()
