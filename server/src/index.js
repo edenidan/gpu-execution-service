@@ -19,7 +19,11 @@ const compileSource = async (/** @type {string} */ sourceCode) => {
   await writeFile(sourceFilePath, sourceCode);
 
   const binaryFilePath = `${baseFilePath}.exe`;
-  await execAsync(`nvcc -o ${binaryFilePath} ${sourceFilePath}`);
+  try {
+    await execAsync(`nvcc -o ${binaryFilePath} ${sourceFilePath}`);
+  } catch (e) {
+    return null;
+  }
 
   unlink(sourceFilePath);
   return binaryFilePath;
@@ -42,6 +46,10 @@ app.use(express.json({ limit: '50mb' }));
 app.post('/source', async (req, res) => {
   console.log(`Received 'source' request from ${req.hostname}`);
   const binaryFilePath = await compileSource(decodeBase64(req.body.data));
+  if (binaryFilePath === null) {
+    res.send('An error occured');
+    return;
+  }
   await executeAndPipeOutput(binaryFilePath, res);
 });
 

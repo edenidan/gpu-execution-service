@@ -37,5 +37,5 @@ requestPath, filePath = parse_args()
 
 gpu_program_data = read_binary_file(filePath)
 reponse = post_gpu_program_to_service(
-    f"http://localhost:3000/{requestPath}", gpu_program_data)
+    f"http://localhost:25565/{requestPath}", gpu_program_data)
 print(reponse)
