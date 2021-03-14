@@ -18,17 +18,17 @@ def read_binary_file(path):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c')
-    parser.add_argument('-e')
+    parser.add_argument('-s')
+    parser.add_argument('-b')
     args = parser.parse_args()
 
-    if args.c and args.e:
+    if args.s and args.b:
         raise Exception('invalid arguments')
 
-    if args.c:
-        return 'source', args.c
-    if args.e:
-        return 'binary', args.e
+    if args.s:
+        return 'source', args.s
+    if args.b:
+        return 'binary', args.b
 
     raise Exception('invalid arguments')
 
