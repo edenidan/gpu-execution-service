@@ -29,7 +29,7 @@ const executeAndPipeOutput = async (/** @type {string} */ binaryFilePath, res) =
   const child = spawn(binaryFilePath);
   const onEnd = async () => {
     res.end();
-    unlink(binaryFilePath);
+    setTimeout(() => { unlink(binaryFilePath).catch(() => { }); }, 5000);
     resolve();
   };
   child.stdout.on('end', onEnd);
