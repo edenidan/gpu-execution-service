@@ -52,7 +52,7 @@ app.post('/binary', async (req, res) => {
   await executeAndPipeOutput(binaryFilePath, res);
 });
 
-const port = 3000;
+const port = 25565;
 app.listen(port, () => {
   console.log(`running on port ${port}`);
 });
