@@ -37,7 +37,7 @@ const executeAndPipeOutput = async (/** @type {string} */ binaryFilePath, res) =
 });
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 app.post('/source', async (req, res) => {
   const binaryFilePath = await compileSource(decodeBase64(req.body.data));
@@ -46,7 +46,7 @@ app.post('/source', async (req, res) => {
 
 app.post('/binary', async (req, res) => {
   const binaryFilePath = `${getRandomFilePath()}.exe`;
-  await writeFile(binaryFilePath, decodeBase64(req.body.data));
+  await writeFile(binaryFilePath, Buffer.from(req.body.data, 'base64'));
   await executeAndPipeOutput(binaryFilePath, res);
 });
 
