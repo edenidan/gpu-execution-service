@@ -13,11 +13,14 @@ const decodeBase64 = (/** @type {string} */ base64Encoded) => Buffer.from(base64
 const getRandomFilePath = () => uniqueFilename(tmpdir());
 
 const compileSource = async (/** @type {string} */ sourceCode) => {
-  const binaryFilePath = getRandomFilePath();
-  const sourceFilePath = `${binaryFilePath}.cu`;
+  const baseFilePath = getRandomFilePath();
 
+  const sourceFilePath = `${baseFilePath}.cu`;
   await writeFile(sourceFilePath, sourceCode);
+
+  const binaryFilePath = `${baseFilePath}.exe`;
   await execAsync(`nvcc -o ${binaryFilePath} ${sourceFilePath}`);
+
   unlink(sourceFilePath);
   return binaryFilePath;
 };
@@ -42,7 +45,7 @@ app.post('/source', async (req, res) => {
 });
 
 app.post('/binary', async (req, res) => {
-  const binaryFilePath = getRandomFilePath();
+  const binaryFilePath = `${getRandomFilePath()}.exe`;
   await writeFile(binaryFilePath, decodeBase64(req.body.data));
   await executeAndPipeOutput(binaryFilePath, res);
 });

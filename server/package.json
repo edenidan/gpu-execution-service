@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "node src/index.js",
-	"watch": "nodemon src/index.js"
+    "watch": "nodemon src/index.js"
   },
   "dependencies": {
     "express": "^4.17.1",
